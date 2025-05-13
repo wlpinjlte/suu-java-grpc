@@ -31,4 +31,41 @@ The project demonstrates all four types of gRPC communication:
 - **Bidirectional streaming RPC** – both client and server send a stream of messages
 
 ## Case study concept description
+[CNCF blog post - Movie Finder App](https://www.cncf.io/blog/2021/08/04/grpc-in-action-example-using-java-microservices/)
+
 ![image](https://github.com/user-attachments/assets/aea441e9-8146-4554-a49c-ef4d6ce37023)
+
+### Demo Overview
+
+"Movie Finder" project demonstrates a microservice architecture with gRPC serving as the communication backbone.
+
+The application processes user requests to recommend movies based on genre preferences. It consists of four microservices:
+
+- MovieController: Acts as the entry point, handling client requests.
+- MovieStore: Maintains a repository of movies categorized by genre.
+- UserPreferences: Filters movies based on user-specific preferences.
+- Recommender: Selects a final movie recommendation from the filtered list.
+
+Each microservice operates independently, communicating exclusively through gRPC, showcasing all four gRPC communication patterns.
+
+### Goal
+
+Our main goal is to provide telemetry metrics to the system and measure its performance which requires some additional modification to the provided example application.
+
+### Demo Design
+
+#### Adding OTel
+
+To add Open Telemetry to our project we need to instantiate a `prometheus server` for each of the applications to measure data like processed requests count and expose ports for collecting these metrics from grafana
+
+#### Containerization and Deployment
+
+Docker images need to be created for each of the services to allow for containerized deployment of the application
+
+Kubernetes deployments and services need to be created to allow for deployement on a kubernetes cluster.
+
+#### Setting up metrics and observability
+
+Prometheus and Grafana need to be deployed to the kubernetes cluster. 
+
+Prometheus needs to be set up to gather data from `/metrics` endpoint from each of the services and Grafana needs to be connected to Prometheus as a data source. Grafana dashboards need to be created or imported to visualize data gathered from the services.
