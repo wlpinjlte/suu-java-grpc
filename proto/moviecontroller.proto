@@ -1,0 +1,15 @@
+syntax = "proto3";
+package moviecontroller;
+import "common.proto";
+option java_multiple_files = true;
+
+message MovieRequest {
+  string userid = 1;
+  common.Genre genre = 2;
+}
+message MovieResponse {
+  common.Movie movie = 1;
+}
+service MovieControllerService {
+  rpc getMovie(MovieRequest) returns (MovieResponse) {};
+}
