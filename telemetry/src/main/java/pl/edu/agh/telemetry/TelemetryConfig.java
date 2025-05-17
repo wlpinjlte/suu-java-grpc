@@ -9,10 +9,13 @@ import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.BatchSpanProcessor;
 
 import java.time.Duration;
+import java.util.concurrent.TimeUnit;
 
 public class TelemetryConfig {
 
     private static OpenTelemetrySdk openTelemetrySdk;
+
+    private static final String OTEL_EXPORTER_OTLP_ENDPOINT = "http://otel-collector:4317";
 
     public static OpenTelemetry initOpenTelemetry(String serviceName) {
         if (openTelemetrySdk != null) {
@@ -20,6 +23,7 @@ public class TelemetryConfig {
         }
 
         OtlpGrpcSpanExporter spanExporter = OtlpGrpcSpanExporter.builder()
+                .setEndpoint(OTEL_EXPORTER_OTLP_ENDPOINT)
                 .setTimeout(Duration.ofSeconds(5))
                 .build();
 
@@ -46,7 +50,7 @@ public class TelemetryConfig {
 
     public static void shutdown() {
         if (openTelemetrySdk != null) {
-            openTelemetrySdk.getSdkTracerProvider().shutdown();
+            openTelemetrySdk.getSdkTracerProvider().shutdown().join(10, TimeUnit.SECONDS);
         }
     }
 }
