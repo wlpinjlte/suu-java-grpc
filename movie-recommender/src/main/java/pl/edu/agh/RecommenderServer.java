@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class RecommenderServer {
 
-    public static final int PORT = 50053;
+    public static final int PORT = 50054;
 
     public static void main(String[] args) throws IOException, InterruptedException {
         Server server = ServerBuilder.forPort(PORT)
