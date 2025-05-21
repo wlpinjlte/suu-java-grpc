@@ -69,3 +69,5 @@ Kubernetes deployments and services need to be created to allow for deployement 
 Prometheus and Grafana need to be deployed to the kubernetes cluster. 
 
 Prometheus needs to be set up to gather data from `/metrics` endpoint from each of the services and Grafana needs to be connected to Prometheus as a data source. Grafana dashboards need to be created or imported to visualize data gathered from the services.
+
+![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
