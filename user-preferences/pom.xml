@@ -45,6 +45,33 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.2.4</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals><goal>shade</goal></goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
+                                    <!-- replace with your actual main class -->
+                                    <!--                                    <mainClass>pl.edu.agh.MovieFinderClient</mainClass>-->
+                                </transformer>
+
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <!-- replace with your actual main class -->
+                                    <mainClass>pl.edu.agh.UserPreferencesServer</mainClass>
+                                </transformer>
+                            </transformers>
+                            <!-- optional: relocate packages if needed -->
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 

@@ -71,3 +71,20 @@ Prometheus and Grafana need to be deployed to the kubernetes cluster.
 Prometheus needs to be set up to gather data from `/metrics` endpoint from each of the services and Grafana needs to be connected to Prometheus as a data source. Grafana dashboards need to be created or imported to visualize data gathered from the services.
 
 ![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
+
+#### Commands to setup docker containers
+To deploy project on kubernetes run following commands and then start client.
+```
+docker build -t movie-controller:local .
+docker build -t movie-recommender:local .
+docker build -t movie-store:local .
+docker build -t user-preferences:local .
+
+kubectl apply -f namespace.yaml
+kubectl apply -f movie-controller.yaml
+kubectl apply -f movie-recommender.yaml
+kubectl apply -f movie-store.yaml
+kubectl apply -f user-preferences.yaml
+
+kubectl port-forward svc/movie-controller 50051:50051 -n movie-app
+```

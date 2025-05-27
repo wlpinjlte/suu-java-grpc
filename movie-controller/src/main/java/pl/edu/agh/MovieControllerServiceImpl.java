@@ -19,6 +19,7 @@ import userpreferences.UserPreferencesRequest;
 import userpreferences.UserPreferencesResponse;
 import userpreferences.UserPreferencesServiceGrpc;
 
+import java.sql.SQLOutput;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -33,6 +34,7 @@ public class MovieControllerServiceImpl extends
 
     @Override
     public void getMovie(MovieRequest request, StreamObserver<MovieResponse> responseObserver) {
+        System.out.println("Connection Established");
         Span parentSpan = tracer.spanBuilder("MovieControllerServiceImpl.getMovie")
                 .setAttribute("userid", request.getUserid())
                 .setAttribute("genre", String.valueOf(request.getGenre()))
@@ -42,11 +44,11 @@ public class MovieControllerServiceImpl extends
             String userId = request.getUserid();
 
             MovieStoreServiceGrpc.MovieStoreServiceBlockingStub movieStoreClient =
-                    MovieStoreServiceGrpc.newBlockingStub(getChannel(MOVIE_STORE_PORT));
+                    MovieStoreServiceGrpc.newBlockingStub(getChannel("movie-store.movie-app.svc.cluster.local", MOVIE_STORE_PORT));
             UserPreferencesServiceGrpc.UserPreferencesServiceStub userPreferencesClient =
-                    UserPreferencesServiceGrpc.newStub(getChannel(USER_PREFERENCES_PORT));
+                    UserPreferencesServiceGrpc.newStub(getChannel("user-preferences.movie-app.svc.cluster.local", USER_PREFERENCES_PORT));
             RecommenderServiceGrpc.RecommenderServiceStub recommenderClient =
-                    RecommenderServiceGrpc.newStub(getChannel(MOVIE_RECOMMENDER_PORT));
+                    RecommenderServiceGrpc.newStub(getChannel("movie-recommender.movie-app.svc.cluster.local", MOVIE_RECOMMENDER_PORT));
 
             CountDownLatch latch = new CountDownLatch(1);
 
@@ -114,9 +116,11 @@ public class MovieControllerServiceImpl extends
         }
     }
 
-    private ManagedChannel getChannel(int port) {
-        return ManagedChannelBuilder.forAddress("localhost", port)
+    private ManagedChannel getChannel(String host, int port) {
+        return ManagedChannelBuilder.forAddress(host, port)
                 .usePlaintext()
+                .enableRetry()
+                .keepAliveTime(10,TimeUnit.SECONDS)
                 .build();
     }
 }
