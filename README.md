@@ -56,7 +56,7 @@ Our main goal is to provide telemetry metrics to the system and measure its perf
 
 #### Adding OTel
 
-To add Open Telemetry to our project we need to instantiate a `prometheus server` for each of the applications to measure data like processed requests count and expose ports for collecting these metrics from grafana
+To add Open Telemetry to our project we need to instantiate a `OTel Collector` for each of the applications to measure data like processed requests count and expose ports for collecting these metrics from grafana
 
 #### Containerization and Deployment
 
@@ -66,9 +66,9 @@ Kubernetes deployments and services need to be created to allow for deployement 
 
 #### Setting up metrics and observability
 
-Prometheus and Grafana need to be deployed to the kubernetes cluster. 
+OTel collector and Grafana need to be deployed to the kubernetes cluster. 
 
-Prometheus needs to be set up to gather data from `/metrics` endpoint from each of the services and Grafana needs to be connected to Prometheus as a data source. Grafana dashboards need to be created or imported to visualize data gathered from the services.
+OTel collector needs to be set up to gather data from each of the services and Grafana needs to be connected to OTel collector as a data source. Grafana dashboards need to be created or imported to visualize data gathered from the services.
 
 ![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
 
