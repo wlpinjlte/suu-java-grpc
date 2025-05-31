@@ -79,12 +79,14 @@ docker build -t movie-controller:local .
 docker build -t movie-recommender:local .
 docker build -t movie-store:local .
 docker build -t user-preferences:local .
+docker build -t movie-client:local .
 
 kubectl apply -f namespace.yaml
 kubectl apply -f movie-controller.yaml
 kubectl apply -f movie-recommender.yaml
 kubectl apply -f movie-store.yaml
 kubectl apply -f user-preferences.yaml
+kubectl apply -f grpc-client-cronjob.yaml
 
 kubectl port-forward svc/movie-controller 50051:50051 -n movie-app
 ```
