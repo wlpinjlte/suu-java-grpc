@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tempo
+  namespace: movie-app
+  labels:
+    app: tempo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tempo
+  template:
+    metadata:
+      labels:
+        app: tempo
+    spec:
+      containers:
+      - name: tempo
+        image: grafana/tempo:latest
+        args:
+          - "-config.file=/etc/tempo.yaml"
+        ports:
+        - containerPort: 4317
+        - containerPort: 3100
+        volumeMounts:
+        - name: tempo-config
+          mountPath: /etc/tempo.yaml
+          subPath: tempo.yaml
+      volumes:
+      - name: tempo-config
+        configMap:
+          name: tempo-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: tempo
+  namespace: movie-app
+spec:
+  selector:
+    app: tempo
+  ports:
+  - name: grpc
+    port: 4317
+    targetPort: 4317
+  - name: http
+    port: 3100
+    targetPort: 3100
