@@ -80,5 +80,5 @@ To deploy project on kubernetes run following commands and then start client.
 kubectl apply -R -f .
 
 kubectl port-forward svc/movie-controller 50051:50051 -n movie-app
-kubectl port-forward svc/grafana 3000:3000 -n movie app
+kubectl port-forward svc/grafana 3000:3000 -n movie-app
 ```
