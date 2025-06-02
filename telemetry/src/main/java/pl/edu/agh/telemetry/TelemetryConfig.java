@@ -16,7 +16,7 @@ public class TelemetryConfig {
     private static OpenTelemetrySdk openTelemetrySdk;
 
     // private static final String OTEL_EXPORTER_OTLP_ENDPOINT = "http://otel-collector:4317";
-    private static final String OTEL_EXPORTER_OTLP_ENDPOINT = "http://otel-collector.movie-appsvc.cluster.local:4317";
+    private static final String OTEL_EXPORTER_OTLP_ENDPOINT = "otel-collector.movie-app.svc.cluster.local:4317";
 
 
     public static OpenTelemetry initOpenTelemetry(String serviceName) {
