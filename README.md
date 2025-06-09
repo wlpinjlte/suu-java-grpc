@@ -73,12 +73,11 @@ OTel collector needs to be set up to gather data from each of the services and G
 ![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
 
 #### Commands to setup docker containers
-To deploy project on kubernetes run following commands and then start client.
+To deploy project on kubernetes run following commands:
 ```
 ./build_images.sh
 
 kubectl apply -R -f .
 
-kubectl port-forward svc/movie-controller 50051:50051 -n movie-app
 kubectl port-forward svc/grafana 3000:3000 -n movie-app
 ```
