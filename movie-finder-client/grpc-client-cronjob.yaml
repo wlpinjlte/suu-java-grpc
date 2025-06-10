@@ -2,6 +2,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: grpc-client-job
+  namespace: movie-app
 spec:
   schedule: "*/1 * * * *"
   jobTemplate:
@@ -11,5 +12,8 @@ spec:
           containers:
           - name: grpc-client
             image: movie-client:local
-            imagePullPolicy: Always
+            imagePullPolicy: IfNotPresent
+            env:
+              - name: GRPC_SERVER_HOST
+                value: "movie-controller.movie-app"
           restartPolicy: OnFailure

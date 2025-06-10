@@ -12,8 +12,9 @@ import common.Genre;
 public class MovieFinderClient {
     public static final int MOVIE_CONTROLLER_SERVICE_PORT = 50051;
     public static void main(String[] args) {
+        String host = System.getenv().getOrDefault("GRPC_SERVER_HOST", "localhost");
         ManagedChannel channel = ManagedChannelBuilder
-                .forAddress("localhost",
+                .forAddress(host,
                         MOVIE_CONTROLLER_SERVICE_PORT)
                 .usePlaintext()
                 .build();

@@ -73,20 +73,11 @@ OTel collector needs to be set up to gather data from each of the services and G
 ![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
 
 #### Commands to setup docker containers
-To deploy project on kubernetes run following commands and then start client.
+To deploy project on kubernetes run following commands:
 ```
-docker build -t movie-controller:local .
-docker build -t movie-recommender:local .
-docker build -t movie-store:local .
-docker build -t user-preferences:local .
-docker build -t movie-client:local .
+./build_images.sh
 
-kubectl apply -f namespace.yaml
-kubectl apply -f movie-controller.yaml
-kubectl apply -f movie-recommender.yaml
-kubectl apply -f movie-store.yaml
-kubectl apply -f user-preferences.yaml
-kubectl apply -f grpc-client-cronjob.yaml
+kubectl apply -R -f .
 
-kubectl port-forward svc/movie-controller 50051:50051 -n movie-app
+kubectl port-forward svc/grafana 3000:3000 -n movie-app
 ```
