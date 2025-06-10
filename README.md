@@ -90,7 +90,12 @@ To view trace metrics in Grafana:
    - Connection URL: `http://tempo:3100`
 3. Create a new dashboard by importing the file `dashboard.json`.
 
+## Results
+![image](https://github.com/user-attachments/assets/a57d0bbf-c777-4f1b-8232-9f9faf7818b3)
+![image](https://github.com/user-attachments/assets/3d6ef5b3-57be-4b31-b13a-e7c1d7e3ab1c)
+
 ## Summary
+
 ## References
 - https://www.cncf.io/blog/2021/08/04/grpc-in-action-example-using-java-microservices/
 - https://grafana.com/grafana/dashboards/20600-standard-guardrails-dash/
