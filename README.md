@@ -52,19 +52,19 @@ Each microservice operates independently, communicating exclusively through gRPC
 
 Our main goal is to provide telemetry metrics to the system and measure its performance which requires some additional modification to the provided example application.
 
-### Demo Design
+## Solution architecture
 
-#### Adding OTel
+### Adding OTel
 
 To add Open Telemetry to our project we need to instantiate a `OTel Collector` for each of the applications to measure data like processed requests count and expose ports for collecting these metrics from grafana
 
-#### Containerization and Deployment
+### Containerization and Deployment
 
 Docker images need to be created for each of the services to allow for containerized deployment of the application
 
 Kubernetes deployments and services need to be created to allow for deployement on a kubernetes cluster.
 
-#### Setting up metrics and observability
+### Setting up metrics and observability
 
 OTel collector and Grafana need to be deployed to the kubernetes cluster. 
 
@@ -72,12 +72,25 @@ OTel collector needs to be set up to gather data from each of the services and G
 
 ![Kubernetes architecture](./assets/kubernetes_diagram.jpg)
 
-#### Commands to setup docker containers
+## Deployment steps
 To deploy project on kubernetes run following commands:
 ```
+mvn package
+
 ./build_images.sh
 
 kubectl apply -R -f .
 
 kubectl port-forward svc/grafana 3000:3000 -n movie-app
 ```
+To view trace metrics in Grafana:
+1. Open your browser and go to http://localhost:3000.
+2. Add a new Data Source:
+   - Type: **Tempo**
+   - Connection URL: `http://tempo:3100`
+3. Create a new dashboard by importing the file `dashboard.json`.
+
+## Summary
+## References
+- https://www.cncf.io/blog/2021/08/04/grpc-in-action-example-using-java-microservices/
+- https://grafana.com/grafana/dashboards/20600-standard-guardrails-dash/
