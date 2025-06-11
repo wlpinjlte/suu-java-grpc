@@ -83,6 +83,15 @@ kubectl apply -R -f .
 
 kubectl port-forward svc/grafana 3000:3000 -n movie-app
 ```
+
+if you have already applied the kubernetes configs but made changes to the code or docker images restart the neccesary deployments:
+```
+mvn package
+./build_images
+
+kubectl rollout restart deployment <deployment_name>
+```
+
 To view trace metrics in Grafana:
 1. Open your browser and go to http://localhost:3000.
 2. Add a new Data Source:
@@ -95,7 +104,17 @@ To view trace metrics in Grafana:
 ![image](https://github.com/user-attachments/assets/3d6ef5b3-57be-4b31-b13a-e7c1d7e3ab1c)
 
 ## Summary
+The focus of this study was to assess the execution time of different gRPC call types in a realistic microservices architecture. With observability in place, we collected performance metrics during operation
+- Unary RPC: 39.1 ms
+- Server-side streaming RPC: 1.54 ms
+- Client-side streaming RPC: 17.9 ms
+- Bidirectional streaming RPC: 13.7 ms
+
+These results show that streaming methods—particularly server-side streaming tend to perform faster in our deployment scenario, likely due to lower per-message overhead when multiple responses are sent in a single stream.
+
+These results validate gRPC as a suitable solution for inter-service communication in a microservice enviromnent, and highlight the importance of proper observability tools for perforamance tuning and system health monitoring in Kubernetes clusters.
 
 ## References
 - https://www.cncf.io/blog/2021/08/04/grpc-in-action-example-using-java-microservices/
 - https://grafana.com/grafana/dashboards/20600-standard-guardrails-dash/
+- https://kubernetes.io/docs/home/
